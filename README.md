@@ -107,3 +107,27 @@ Useful options (both scripts): `--thickness` (front depth / radius, default 0.45
 To look at a `.glb`: `f3d model.glb` (`sudo apt install f3d`), or Google's
 `<model-viewer>` in a page served with `python3 -m http.server`; a browser does not
 load a `.glb` from a page opened from disk.
+
+### Metals
+
+For a metal such as a gold nugget, make the model reflect like metal:
+
+```bash
+.venv/bin/python stone_glb.py nugget.jpg -o out/gold_a/gold_a.glb --size-mm 16 --metallic 1 --roughness 0.4
+```
+
+## 3D model of a faceted (step-cut) gem
+
+`gem_glb.py` builds an emerald-cut gem from a top-view cut-out and its 8 girdle
+corners: the table and step facets on top are textured with the photo, the
+underside (pavilion and keel) is invented and gets the same photo, darker. A
+see-through glass material was tried and dropped: `<model-viewer>` showed the page
+background through it, so the underside looked white.
+
+```bash
+.venv/bin/python gem_glb.py out/quartz_b/quartz_b1.png out/quartz_b/outline_level.json -o out/quartz_b/quartz_b.glb --length-mm 12
+```
+
+`outline.json` is `[[x, y], ...]`, the 8 corners in the cut-out's pixels, clockwise
+from the top-left of the top edge. Options: `--depth` (total depth / width, 0.62),
+`--ior` (refractive index, quartz 1.544).

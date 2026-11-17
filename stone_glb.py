@@ -60,7 +60,7 @@ def vertex_normals(V, F):
     return n
 
 
-def write_glb(path, V, Nrm, UV, F, jpeg, name):
+def write_glb(path, V, Nrm, UV, F, jpeg, name, metallic=0.0, roughness=0.35):
     V = V.astype(np.float32)
     Nrm = Nrm.astype(np.float32)
     UV = UV.astype(np.float32)
@@ -90,7 +90,7 @@ def write_glb(path, V, Nrm, UV, F, jpeg, name):
             "attributes": {"POSITION": 0, "NORMAL": 1, "TEXCOORD_0": 2},
             "indices": 3, "material": 0}]}],
         "materials": [{"name": "stone", "pbrMetallicRoughness": {
-            "baseColorTexture": {"index": 0}, "metallicFactor": 0.0, "roughnessFactor": 0.35}}],
+            "baseColorTexture": {"index": 0}, "metallicFactor": metallic, "roughnessFactor": roughness}}],
         "textures": [{"source": 0, "sampler": 0}],
         "samplers": [{"magFilter": 9729, "minFilter": 9987, "wrapS": 33071, "wrapT": 33071}],
         "images": [{"bufferView": vImg, "mimeType": "image/jpeg"}],
@@ -125,6 +125,8 @@ def main():
     ap.add_argument("--exp", type=float, default=0.6)
     ap.add_argument("--swirl", type=float, default=np.pi)
     ap.add_argument("--quality", type=int, default=90)
+    ap.add_argument("--metallic", type=float, default=0.0, help="1 for a metal such as a gold nugget")
+    ap.add_argument("--roughness", type=float, default=0.35, help="0 mirror-like, 1 matte")
     a = ap.parse_args()
 
     rgb = np.array(Image.open(a.image).convert("RGB"))
@@ -160,7 +162,7 @@ def main():
     F[inward] = F[inward][:, ::-1]
     Nrm = vertex_normals(V, F)
 
-    write_glb(a.out, V, Nrm, UV, F, buf.getvalue(), Path(a.out).stem)
+    write_glb(a.out, V, Nrm, UV, F, buf.getvalue(), Path(a.out).stem, a.metallic, a.roughness)
     print(f"saved {a.out}: {len(V)} vertices, {len(F)} triangles, {Path(a.out).stat().st_size / 1e6:.2f} MB")
 
 
