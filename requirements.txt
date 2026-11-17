@@ -1,0 +1,9 @@
+# CPU-only PyTorch (no GPU needed). Remove the next line to get the CUDA build instead.
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.15.0
+torchvision==0.29.2
+# Meta's SAM 2 (Apache 2.0), pinned to the tested commit
+SAM-2 @ git+https://github.com/facebookresearch/sam2.git@2b90b9f5ceec907a1c18123530e92e794ad901a4
+opencv-python==5.0.0.93
+pillow==13.0.0
+numpy==2.5.4

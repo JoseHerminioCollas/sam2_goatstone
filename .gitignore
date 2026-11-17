@@ -1,0 +1,10 @@
+.venv/
+models/
+__pycache__/
+
+# images: inputs and cut-outs stay local
+*.jpg
+*.jpeg
+*.png
+*.webp
+out/
